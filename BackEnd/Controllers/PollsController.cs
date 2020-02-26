@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using API.ViewModels.Output;
 using Business.Services;
 using AutoMapper;
@@ -20,9 +21,9 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("questions")]
-        public List<PollDto> GetPolls()
+        public async Task<List<PollDto>> GetPolls()
         {
-            return _mapper.Map<List<PollDto>>(_service.GetPolls());
+            return _mapper.Map<List<PollDto>>(await _service.GetPolls());
         }
     }
 }

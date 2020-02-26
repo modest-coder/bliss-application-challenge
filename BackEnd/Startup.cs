@@ -8,6 +8,9 @@ using API.MappingProfiles;
 using Business.Services;
 using AutoMapper;
 
+using Microsoft.EntityFrameworkCore;
+using Business.DbConfigurations;
+
 namespace BackEnd
 {
     public class Startup
@@ -30,6 +33,10 @@ namespace BackEnd
                 mc.AddProfile(new DtoToBusinessProfile());
             });
             services.AddSingleton(mappingConfig.CreateMapper());
+
+            //services.AddDbContext<DataAccessContext>(options =>
+            //    options.UseSqlServer("Data Source=(LocalDB)\\MSSQLLocalDB;DataBase=Challenge;Integrated Security=True;Connect Timeout=30")
+            //);
 
             services.AddControllers(); // TODO: Parse the output to snake_case naming convention
             //.AddJsonOptions(options =>

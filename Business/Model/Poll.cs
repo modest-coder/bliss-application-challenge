@@ -10,11 +10,6 @@ namespace Business.Model
         public string ImageUrl { get; set; }
         public string ThumbUrl { get; set; }
         public DateTime PublishedAt { get; set; }
-        public List<Option> Choices { get; set; }
-
-        public Poll()
-        {
-            Choices = new List<Option>();
-        }
+        public List<Option> Choices { get; set; } = new List<Option>();
     }
 }
