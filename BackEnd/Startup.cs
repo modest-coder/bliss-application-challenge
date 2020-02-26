@@ -4,11 +4,16 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.OpenApi.Models;
+using API.MappingProfiles;
+using Business.Services;
+using AutoMapper;
 
 namespace BackEnd
 {
     public class Startup
     {
+        private const string CURRENT_API_VERSION = "v0.1";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -19,12 +24,25 @@ namespace BackEnd
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new BusinessToDtoProfile());
+                mc.AddProfile(new DtoToBusinessProfile());
+            });
+            services.AddSingleton(mappingConfig.CreateMapper());
+
+            services.AddControllers(); // TODO: Parse the output to snake_case naming convention
+            //.AddJsonOptions(options =>
+            //{
+            //    options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy("snake_case");
+            //});
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v0.1", new OpenApiInfo { Title = "B.A. Challenge API", Version = "v0.1" });
+                c.SwaggerDoc(CURRENT_API_VERSION, new OpenApiInfo { Title = "B.A. Challenge API", Version = CURRENT_API_VERSION });
             });
+
+            services.AddTransient<PollsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,16 +56,14 @@ namespace BackEnd
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v0.1/swagger.json", "B.A. Challenge API");
+                c.SwaggerEndpoint($"/swagger/{CURRENT_API_VERSION}/swagger.json", "B.A. Challenge API");
                 c.RoutePrefix = string.Empty;
             });
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

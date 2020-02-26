@@ -5,7 +5,6 @@ namespace BackEnd.Controllers
     [ApiController]
     public class MonitorController : ControllerBase
     {
-
         [HttpGet]
         [Route("health")]
         public IActionResult CheckHealth()
