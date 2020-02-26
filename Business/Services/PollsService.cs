@@ -19,24 +19,6 @@ namespace Business.Services
         public async Task<List<Poll>> GetQuestions()
         {
             return await _dbContext.Polls.Include("Choices").ToListAsync();
-            //return new List<Poll>()
-            //{
-            //    new Poll()
-            //    {
-            //        Id = 1,
-            //        Question = "Favourite programming language?",
-            //        ImageUrl = "https://dummyimage.com/600x400/000/fff.png&text=question+1+image+(600x400)",
-            //        ThumbUrl = "https://dummyimage.com/120x120/000/fff.png&text=question+1+image+(120x120)",
-            //        PublishedAt = Convert.ToDateTime("2015-08-05T08:40:51.620Z"),
-            //        Choices = new List<Option>()
-            //        {
-            //            new Option() { Choice = "Swift", Votes = 2048 },
-            //            new Option() { Choice = "Python", Votes = 1024 },
-            //            new Option() { Choice = "Objective-C", Votes = 512 },
-            //            new Option() { Choice = "Ruby", Votes = 256 }
-            //        }
-            //    }
-            //};
         }
 
         public async Task<Poll> GetQuestionById(int questionId)
@@ -44,14 +26,14 @@ namespace Business.Services
             return await _dbContext.Polls.Include("Choices").FirstOrDefaultAsync(p => p.Id == questionId);
         }
 
-        public async Task<Poll> AddPoll(Poll poll)
+        public async Task<Poll> AddQuestion(Poll poll)
         {
             _dbContext.Polls.Add(poll);
             await _dbContext.SaveChangesAsync();
             return poll;
         }
 
-        public async Task<Poll> UpdatePoll(int questionId, Poll newQuestion)
+        public async Task<Poll> UpdateQuestion(int questionId, Poll newQuestion)
         {
             var dbQuestion = await _dbContext.Polls.FirstOrDefaultAsync(p => p.Id == questionId);
             if(dbQuestion != null)
