@@ -11,6 +11,7 @@ using System;
 
 using Microsoft.EntityFrameworkCore;
 using Business.DbConfigurations;
+using API.Configurations;
 
 namespace BackEnd
 {
@@ -40,11 +41,11 @@ namespace BackEnd
                 //options.UseSqlServer("Data Source=(LocalDB)\\MSSQLLocalDB;DataBase=Challenge;Integrated Security=True;Connect Timeout=30")
             );
 
-            services.AddControllers();
-            //.AddJsonOptions(options =>
-            //{
-            //    options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy("snake_case");
-            //});
+            services.AddControllers()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.PropertyNamingPolicy = SnakeCaseNamingPolicy.Instance;
+            });
 
             services.AddSwaggerGen(c =>
             {

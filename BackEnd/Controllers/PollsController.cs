@@ -45,7 +45,18 @@ namespace API.Controllers
         [Route("questions")]
         public async Task<IActionResult> AddQuestion(PollOutput dto)
         {
-            return Ok(_mapper.Map<PollOutput>(await _service.AddQuestion(_mapper.Map<Poll>(dto))));
+            try
+            {
+                var newQuestion = _mapper.Map<PollOutput>(await _service.AddQuestion(_mapper.Map<Poll>(dto)));
+                return Created($"/questions/{newQuestion.Id}", newQuestion);
+            }
+            catch
+            {
+                return BadRequest(new
+                {
+                    status = "Bad Request. All fields are mandatory."
+                });
+            }
         }
 
         [HttpPut]
