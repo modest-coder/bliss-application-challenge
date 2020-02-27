@@ -8,8 +8,8 @@ namespace API.MappingProfiles
     {
         public BusinessToDtoProfile()
         {
-            CreateMap<Poll, PollDto>();
-            CreateMap<Option, OptionDto>();
+            CreateMap<Poll, PollOutput>();
+            CreateMap<Option, OptionOutput>();
         }
     }
 }

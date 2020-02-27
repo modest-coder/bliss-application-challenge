@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using API.ViewModels.Output;
+using API.ViewModels.Input;
 using Business.Services;
 using Business.Model;
 using AutoMapper;
@@ -22,9 +23,9 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("questions")]
-        public async Task<IActionResult> GetQuestions()
+        public async Task<IActionResult> GetQuestions([FromQuery]GetQuestionsInput input)
         {
-            return Ok(_mapper.Map<List<PollDto>>(await _service.GetQuestions()));
+            return Ok(_mapper.Map<List<PollOutput>>(await _service.GetQuestions(input.limit ?? 10, input.offset ?? 0, input.filter)));
         }
 
         [HttpGet]
@@ -37,26 +38,26 @@ namespace API.Controllers
                 return BadRequest($"It wasn't possible to find the entity for the id: {id}");
             }
 
-            return Ok(_mapper.Map<PollDto>(dbQuestion));
+            return Ok(_mapper.Map<PollOutput>(dbQuestion));
         }
 
         [HttpPost]
         [Route("questions")]
-        public async Task<IActionResult> AddQuestion(PollDto dto)
+        public async Task<IActionResult> AddQuestion(PollOutput dto)
         {
-            return Ok(_mapper.Map<PollDto>(await _service.AddQuestion(_mapper.Map<Poll>(dto))));
+            return Ok(_mapper.Map<PollOutput>(await _service.AddQuestion(_mapper.Map<Poll>(dto))));
         }
 
         [HttpPut]
         [Route("questions/{id}")]
-        public async Task<IActionResult> UpdateQuestion(int id, [FromBody]PollDto dto)
+        public async Task<IActionResult> UpdateQuestion(int id, [FromBody]PollOutput dto)
         {
             var result = await _service.UpdateQuestion(id, _mapper.Map<Poll>(dto));
             if(result == null)
             {
                 return BadRequest($"It wasn't possible to find the entity for the id: {id}");
             }
-            return Ok(_mapper.Map<PollDto>(result));
+            return Ok(_mapper.Map<PollOutput>(result));
         }
     }
 }

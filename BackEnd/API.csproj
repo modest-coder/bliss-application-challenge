@@ -17,10 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ViewModels\Input\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Business\Business.csproj" />
   </ItemGroup>
 

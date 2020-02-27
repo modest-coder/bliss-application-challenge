@@ -16,9 +16,19 @@ namespace Business.Services
             _dbContext = dbContext;
         }
 
-        public async Task<List<Poll>> GetQuestions()
+        public async Task<List<Poll>> GetQuestions(int limit = 10, int offset = 0, string filter = "")
         {
-            return await _dbContext.Polls.Include("Choices").ToListAsync();
+            #region Dynamic Predicate
+            var questionsFilter = LinqKit.PredicateBuilder.New<Poll>(true);
+            if (!string.IsNullOrWhiteSpace(filter))
+            {
+                var toLowerFilter = filter.ToLower();
+                questionsFilter.And(question => question.Question.ToLower().Contains(toLowerFilter));
+                questionsFilter.Or(question => question.Choices.Any(c => c.Choice.ToLower().Contains(toLowerFilter)));
+            }
+            #endregion Dynamic Predicate
+
+            return await _dbContext.Polls.Where(questionsFilter).Include("Choices").Skip(offset).Take(limit).ToListAsync();
         }
 
         public async Task<Poll> GetQuestionById(int questionId)

@@ -1,6 +1,6 @@
 ﻿namespace API.ViewModels.Output
 {
-    public class OptionDto
+    public class OptionOutput
     {
         public string Choice { get; set; }
         public int Votes { get; set; }
