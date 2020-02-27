@@ -11,7 +11,7 @@ Below are the necessary steps to be taken to download and execute the backend pr
  - Clone this project to your work space using the comand: `git clone https://github.com/modest-coder/bliss-application-challenge.git`
   - Navigate to the directory "your_workspace/bliss-application-challenge/BackEnd" and open the project solution (BackEnd.sln) with a double click on it
   - Once it is open, build the solution by executing the shortcut "CTRL + SHIFT + B"
-  - Before executing the application make sure to select the kestrel web server to run the application. See how you can do that by the image below: ![Kestrel Selected](https://github.com/modest-coder/bliss-application-challenge/documentation-assets/images/select-kestrel.png)
+  - Before executing the application make sure to select the kestrel web server to run the application. See how you can do that by the image below: ![Kestrel Selected](https://raw.githubusercontent.com/modest-coder/bliss-application-challenge/develop/documentation-assets/images/select-kestrel.png)
   - After selecting the kestrel web server you only need to click on this to start the application (the first execution will take a while because it makes some setups related to the execution environment but the next executions will be much faster)
 
 #Back-end TODO List:
