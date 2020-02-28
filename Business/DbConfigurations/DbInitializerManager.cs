@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Linq;
-using System;
+
+using Business.Model.snake_case_model;
+using Business.Model;
 
 namespace Business.DbConfigurations
 {
@@ -38,22 +40,22 @@ namespace Business.DbConfigurations
         }
 
         #region Private Methods
-        private static List<Poll> GetQuestionsFromMockApi()
+        private static List<poll> GetQuestionsFromMockApi()
         {
             using (var client = new HttpClient())
             {
                 var task = client.GetStringAsync("https://private-bbbe9-blissrecruitmentapi.apiary-mock.com/questions");
                 task.Wait();
-                return JsonConvert.DeserializeObject<List<Poll>>(task.Result);
+                return JsonConvert.DeserializeObject<List<poll>>(task.Result);
             }
         }
 
-        private static List<Model.Poll> MapMockQuestionsToBusinessQuestions(List<Poll> questionsMockApi)
+        private static List<Poll> MapMockQuestionsToBusinessQuestions(List<poll> questionsMockApi)
         {
-            var mappedQuestions = new List<Model.Poll>();
+            var mappedQuestions = new List<Poll>();
             foreach(var question in questionsMockApi)
             {
-                var newQuestion = new Model.Poll()
+                var newQuestion = new Poll()
                 {
                     Id = question.id,
                     Question = question.question,
@@ -64,7 +66,7 @@ namespace Business.DbConfigurations
 
                 foreach(var choice in question.choices)
                 {
-                    newQuestion.Choices.Add(new Model.Option()
+                    newQuestion.Choices.Add(new Option()
                     {
                         Choice = choice.choice,
                         Votes = choice.votes
@@ -75,23 +77,5 @@ namespace Business.DbConfigurations
             return mappedQuestions;
         }
         #endregion Private Methods
-
-        #region Private Classes
-        private class Poll
-        {
-            public int id { get; set; }
-            public string question { get; set; }
-            public string image_url { get; set; }
-            public string thumb_url { get; set; }
-            public DateTime published_at { get; set; }
-            public List<Option> choices { get; set; } = new List<Option>();
-        }
-
-        private class Option
-        {
-            public string choice { get; set; }
-            public int votes { get; set; }
-        }
-        #endregion Private Classes
     }
 }

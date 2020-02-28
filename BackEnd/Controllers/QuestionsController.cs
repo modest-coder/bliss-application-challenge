@@ -10,12 +10,12 @@ using AutoMapper;
 namespace API.Controllers
 {
     [ApiController]
-    public class PollsController : ControllerBase
+    public class QuestionsController : ControllerBase
     {
-        private readonly PollsService _service;
+        private readonly QuestionsService _service;
         private readonly IMapper _mapper;
 
-        public PollsController(IMapper mapper, PollsService service)
+        public QuestionsController(IMapper mapper, QuestionsService service)
         {
             _service = service;
             _mapper = mapper;

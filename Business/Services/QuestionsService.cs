@@ -8,11 +8,11 @@ using System;
 
 namespace Business.Services
 {
-    public class PollsService
+    public class QuestionsService
     {
         private readonly DataAccessContext _dbContext;
 
-        public PollsService(DataAccessContext dbContext)
+        public QuestionsService(DataAccessContext dbContext)
         {
             _dbContext = dbContext;
         }

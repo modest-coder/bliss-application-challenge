@@ -11,7 +11,7 @@ using System;
 
 using Microsoft.EntityFrameworkCore;
 using Business.DbConfigurations;
-using API.Configurations;
+using API.Extensions;
 
 namespace BackEnd
 {
@@ -37,8 +37,7 @@ namespace BackEnd
             services.AddSingleton(mappingConfig.CreateMapper());
 
             services.AddDbContext<DataAccessContext>(options =>
-                options.UseSqlite($"Filename={AppDomain.CurrentDomain.BaseDirectory}/Database.db")
-                //options.UseSqlServer("Data Source=(LocalDB)\\MSSQLLocalDB;DataBase=Challenge;Integrated Security=True;Connect Timeout=30")
+                options.UseSqlite($"Filename={AppDomain.CurrentDomain.BaseDirectory}/{Configuration.GetConnectionString("DefaultConnection")}")
             );
 
             services.AddControllers()
@@ -52,12 +51,14 @@ namespace BackEnd
                 c.SwaggerDoc(CURRENT_API_VERSION, new OpenApiInfo { Title = "B.A. Challenge API", Version = CURRENT_API_VERSION });
             });
 
-            services.AddTransient<PollsService>();
+            services.AddTransient<QuestionsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseMiddleware(typeof(GlobalExceptionHandlerMiddleware));
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

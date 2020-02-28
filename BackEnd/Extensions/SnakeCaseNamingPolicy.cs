@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json.Serialization;
 using System.Text.Json;
 
-namespace API.Configurations
+namespace API.Extensions
 {
     public class SnakeCaseNamingPolicy : JsonNamingPolicy
     {
