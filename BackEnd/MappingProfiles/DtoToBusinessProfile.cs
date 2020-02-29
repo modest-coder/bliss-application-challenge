@@ -1,4 +1,4 @@
-﻿using API.ViewModels.Output;
+﻿using API.ViewModels;
 using Business.Model;
 using AutoMapper;
 
@@ -8,8 +8,8 @@ namespace API.MappingProfiles
     {
         public DtoToBusinessProfile()
         {
-            CreateMap<PollOutput, Poll>();
-            CreateMap<OptionOutput, Option>();
+            CreateMap<PollDto, Poll>();
+            CreateMap<OptionDto, Option>();
         }
     }
 }

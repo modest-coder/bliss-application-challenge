@@ -14,24 +14,18 @@ Before doing the steps below make sure that you meet the requirements showed rig
  - Clone this project to your work space using the comand: `git clone https://github.com/modest-coder/bliss-application-challenge.git`
   - Navigate to the directory "{your_workspace}/bliss-application-challenge/BackEnd" and open the project solution (BackEnd.sln) with a double click on it
   - Once it is open, build the solution by executing the shortcut "CTRL + SHIFT + B"
-  - Before executing the application make sure to select the kestrel web server to run the application. See how you can do that by the image below:
-  ![Kestrel Selected](https://raw.githubusercontent.com/modest-coder/bliss-application-challenge/develop/documentation-assets/images/select-kestrel.png)
+  - Before executing the application make sure to select the kestrel web server to run the application. See how you can do that by the image below:<br/>![Kestrel Selected](https://raw.githubusercontent.com/modest-coder/bliss-application-challenge/develop/documentation-assets/images/select-kestrel.png)
 
-  - After selecting the kestrel web server you only need to click on this to start the application (the first execution will take a while because it makes some setups related to the execution environment but the next executions will be much faster)
+  - After selecting the kestrel web server you only need to click on this to start the application. The first execution will take a while because it makes some setups related to the execution environment but the next executions will be much faster.
 
 ### Interesting implementations on the back-end project
  - Custom Implementation of snake_case Naming Convention: https://stackoverflow.com/questions/58570189/is-there-a-built-in-way-of-using-snake-case-as-the-naming-policy-for-json-in-asp
  - Global Exception Handler Middleware: https://stackoverflow.com/questions/38630076/asp-net-core-web-api-exception-handling
 
 
-
-
-
 # Back-end TODO List:
- - To implement the share route
- - Implement the method to validate the required fields of the entity
+ - Implement the method to validate the required fields for the share route
  - Inspect the behaviour/expected response on the mock api (and adapt my api to have the same behaviour/response)
  - Implement global handle exception
- - Implement route tests to check the behaviour of both api's (my and the provided one)
  - Publish my api in a free host that supports sqlite on it
- - Implement a convertion from snake case to pascal case and vice versa
+ - Implement a convertion from snake case to pascal case and vice versa using Newtonsoft

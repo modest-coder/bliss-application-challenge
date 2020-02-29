@@ -22,18 +22,18 @@ namespace API.Extensions
             {
                 await next(context);
 
-                var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
-                if (contextFeature != null)
-                {
-                    //await HandleExceptionAsync(context, ex);
-                    //logger.LogError($"Something went wrong: {contextFeature.Error}");
+                //var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
+                //if (contextFeature != null)
+                //{
+                //    //await HandleExceptionAsync(context, ex);
+                //    //logger.LogError($"Something went wrong: {contextFeature.Error}");
 
-                    //await context.Response.WriteAsync(new ErrorDetails()
-                    //{
-                    //    StatusCode = context.Response.StatusCode,
-                    //    Message = "Internal Server Error."
-                    //}.ToString());
-                }
+                //    //await context.Response.WriteAsync(new ErrorDetails()
+                //    //{
+                //    //    StatusCode = context.Response.StatusCode,
+                //    //    Message = "Internal Server Error."
+                //    //}.ToString());
+                //}
             }
             catch (Exception ex)
             {

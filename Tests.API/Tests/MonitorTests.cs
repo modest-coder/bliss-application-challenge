@@ -14,6 +14,8 @@ namespace Tests.API.Tests
             var response = TestHelper.MakeSynchronousHttpGetRequest("health");
 
             Assert.AreEqual(response.ContentType, "application/json");
+            Assert.IsTrue(response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.ServiceUnavailable);
+            
             var body = JsonConvert.DeserializeObject<GenericResponseDto>(response.Body);
             if (response.StatusCode == HttpStatusCode.OK)
             {
@@ -22,10 +24,6 @@ namespace Tests.API.Tests
             else if (response.StatusCode == HttpStatusCode.ServiceUnavailable)
             {
                 Assert.AreEqual(body.status, "Service Unavailable. Please try again later.");
-            }
-            else
-            {
-                Assert.Fail();
             }
         }
     }

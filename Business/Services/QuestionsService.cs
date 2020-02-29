@@ -4,7 +4,6 @@ using Business.DbConfigurations;
 using System.Threading.Tasks;
 using Business.Model;
 using System.Linq;
-using System;
 
 namespace Business.Services
 {
@@ -39,8 +38,6 @@ namespace Business.Services
 
         public async Task<Poll> AddQuestion(Poll poll)
         {
-            ValidateFields();
-
             _dbContext.Polls.Add(poll);
             await _dbContext.SaveChangesAsync();
             return poll;
@@ -48,10 +45,8 @@ namespace Business.Services
 
         public async Task<Poll> UpdateQuestion(int questionId, Poll newQuestion)
         {
-            ValidateFields();
-
-            var dbQuestion = await _dbContext.Polls.FirstOrDefaultAsync(p => p.Id == questionId);
-            if(dbQuestion != null)
+            var dbQuestion = await GetQuestionById(questionId);
+            if (dbQuestion != null)
             {
                 dbQuestion.Question = newQuestion.Question;
                 dbQuestion.ImageUrl = newQuestion.ImageUrl;
@@ -64,11 +59,6 @@ namespace Business.Services
         }
 
         #region Private Methods
-        private void ValidateFields()
-        {
-            throw new ArgumentException();
-        }
-
         private async Task SetQuestionChoices(int questionId, Poll newQuestion)
         {
             _dbContext.Options.RemoveRange(_dbContext.Options.Where(opt => opt.PollId == questionId));

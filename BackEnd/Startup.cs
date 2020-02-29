@@ -11,6 +11,7 @@ using System;
 
 using Microsoft.EntityFrameworkCore;
 using Business.DbConfigurations;
+using Business.Settings;
 using API.Extensions;
 
 namespace BackEnd
@@ -29,6 +30,8 @@ namespace BackEnd
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
+
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new BusinessToDtoProfile());
@@ -52,6 +55,8 @@ namespace BackEnd
             });
 
             services.AddTransient<QuestionsService>();
+            services.AddTransient<ShareService>();
+            services.AddTransient<EmailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

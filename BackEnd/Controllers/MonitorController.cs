@@ -14,7 +14,7 @@ namespace BackEnd.Controllers
         public IActionResult GetHealthStatus()
         {
             var random = (new Random()).Next(1, 20);
-            if (random % 7 == 0) // The expected behaviour is that it throw an exception in 5% of the requests
+            if (random % 7 == 0) // The expected behaviour is that it throws an exception in 5% of the requests
                 return StatusCode(StatusCodes.Status503ServiceUnavailable, new GenericOutput ("Service Unavailable. Please try again later."));
 
             return Ok(new GenericOutput("OK"));
