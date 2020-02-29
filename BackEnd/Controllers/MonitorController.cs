@@ -1,19 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using API.ViewModels.Output;
+using System;
 
 namespace BackEnd.Controllers
 {
     [ApiController]
     public class MonitorController : ControllerBase
     {
-
         [HttpGet]
         [Route("health")]
-        public IActionResult CheckHealth()
+        [Produces("application/json")]
+        public IActionResult GetHealthStatus()
         {
-            return Ok(new
-            {
-                status = "OK"
-            });
+            var random = (new Random()).Next(1, 20);
+            if (random % 7 == 0) // The expected behaviour is that it throws an exception in 5% of the requests
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, new GenericOutput ("Service Unavailable. Please try again later."));
+
+            return Ok(new GenericOutput("OK"));
         }
     }
 }
