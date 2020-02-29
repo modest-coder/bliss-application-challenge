@@ -6,6 +6,7 @@ using Business.Services;
 
 namespace API.Controllers
 {
+    [ApiController]
     public class ShareController : ControllerBase
     {
         private readonly ShareService _service;

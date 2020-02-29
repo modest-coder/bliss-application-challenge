@@ -2,7 +2,6 @@
 
 This project aims to solve the challenge proposed by Bliss Applications so that my technical skills can be evaluated by the company.
 
-
 ## Project Setup
 
 ### Requirements
@@ -20,12 +19,8 @@ Before doing the steps below make sure that you meet the requirements showed rig
 
 ### Interesting implementations on the back-end project
  - Custom Implementation of snake_case Naming Convention: https://stackoverflow.com/questions/58570189/is-there-a-built-in-way-of-using-snake-case-as-the-naming-policy-for-json-in-asp
- - Global Exception Handler Middleware: https://stackoverflow.com/questions/38630076/asp-net-core-web-api-exception-handling
-
+ - Global Exception Filter: https://www.talkingdotnet.com/global-exception-handling-in-aspnet-core-webapi/
 
 # Back-end TODO List:
- - Implement the method to validate the required fields for the share route
- - Inspect the behaviour/expected response on the mock api (and adapt my api to have the same behaviour/response)
- - Implement global handle exception
  - Publish my api in a free host that supports sqlite on it
  - Implement a convertion from snake case to pascal case and vice versa using Newtonsoft

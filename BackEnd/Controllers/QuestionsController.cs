@@ -35,11 +35,6 @@ namespace API.Controllers
         public async Task<IActionResult> GetQuestionById(int question_id)
         {
             var dbQuestion = await _service.GetQuestionById(question_id);
-            if (dbQuestion == null)
-            {
-                return BadRequest($"It wasn't possible to find the entity for the id: {question_id}");
-            }
-
             return Ok(_mapper.Map<PollDto>(dbQuestion));
         }
 

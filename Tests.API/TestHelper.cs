@@ -42,9 +42,7 @@ namespace Tests.API
             return new ShareInputDto()
             {
                 destination_email = "some.email@here.com",
-                content_url = @"Do you know what's the meaning of life the universe and everything?\n
-                                So, just to you know, the answer is 42.\n\n
-                                Now you just have to find the question."
+                content_url = @"Do you know what's the meaning of life the universe and everything?<br>So, just to you know, the answer is 42.<br>Now you have to find the question fot this answer."
             };
         }
 

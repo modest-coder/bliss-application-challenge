@@ -22,6 +22,18 @@ namespace Tests.API.Tests
             var questions = JsonConvert.DeserializeObject<List<poll>>(response.Body);
             Assert.IsTrue(questions.Count >= 10);
         }
+
+        [TestMethod]
+        public void GetQuestions_LimitEquals2_ShouldReturnOkStatusCode()
+        {
+            var response = TestHelper.MakeSynchronousHttpGetRequest("questions?limit=2");
+
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual("application/json", response.ContentType);
+
+            var questions = JsonConvert.DeserializeObject<List<poll>>(response.Body);
+            Assert.IsTrue(questions.Count == 2);
+        }
         #endregion Get Questions
 
         #region Get Question By Id
@@ -44,6 +56,7 @@ namespace Tests.API.Tests
             var response = TestHelper.MakeSynchronousHttpGetRequest($"questions/{questionId}");
 
             Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+            Assert.AreEqual("application/json", response.ContentType);
             Assert.AreEqual($"It wasn't possible to find the entity for the id: {questionId}", JsonConvert.DeserializeObject(response.Body));
         }
         #endregion Get Question By Id
@@ -83,22 +96,19 @@ namespace Tests.API.Tests
             Assert.AreEqual("The Choice field is required.", errorMessage);
         }
 
-        //[TestMethod]
-        //public void AddQuestion_WithRepeatedId_ShouldReturnBadRequestStatusCode()
-        //{
-        //    var question = TestHelper.GetMockedPoll();
-        //    question.id = 1;
+        [TestMethod]
+        public void AddQuestion_WithRepeatedId_ShouldReturnBadRequestStatusCode()
+        {
+            var question = TestHelper.GetMockedPoll();
+            question.id = 1;
 
-        //    var json = JsonConvert.SerializeObject(question);
-        //    var response = TestHelper.MakeSynchronousHttpPostRequest($"questions", json);
+            var json = JsonConvert.SerializeObject(question);
+            var response = TestHelper.MakeSynchronousHttpRequestWithBody(TestHelper.HttpRequestType.Post, $"questions", json);
 
-        //    Assert.AreEqual(response.StatusCode, HttpStatusCode.BadRequest);
-        //    Assert.AreEqual(response.ContentType, "application/json");
-
-        //    var result = JsonConvert.DeserializeObject(response.Body);
-        //    var errorMessage = ((JValue)((JContainer)((JContainer)((JContainer)((JContainer)((JContainer)result).Last).First).First).First).First).Value;
-        //    Assert.AreEqual(errorMessage, "The Choice field is required.");
-        //}
+            Assert.AreEqual(response.StatusCode, HttpStatusCode.InternalServerError);
+            Assert.AreEqual(response.ContentType, "application/json");
+            Assert.AreEqual("Internal Server Error", JsonConvert.DeserializeObject(response.Body));
+        }
 
         [TestMethod]
         public void AddQuestion_ShouldReturnOkStatusCode()
@@ -114,6 +124,21 @@ namespace Tests.API.Tests
         #endregion Add Question
 
         #region Update Question
+        [TestMethod]
+        public void UpdateQuestion_WithInvalidQuestionId_ShouldReturnBadRequestStatusCode()
+        {
+            var question = TestHelper.GetMockedPoll();
+            question.question = null;
+            var questionId = 0;
+
+            var json = JsonConvert.SerializeObject(question);
+            var response = TestHelper.MakeSynchronousHttpRequestWithBody(TestHelper.HttpRequestType.Put, $"questions/{questionId}", json);
+
+            Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+            Assert.AreEqual("application/json", response.ContentType);
+            Assert.AreEqual($"It wasn't possible to find the entity for the id: {questionId}", JsonConvert.DeserializeObject(response.Body));
+        }
+
         [TestMethod]
         public void UpdateQuestion_WithQuestionFieldNull_ShouldReturnBadRequestStatusCode()
         {

@@ -4,7 +4,7 @@ namespace API.ViewModels.Input
 {
     public class ShareInput
     {
-        //[EmailAddress]
+        [EmailAddress]
         [Required]
         public string DestinationEmail { get; set; }
         [Required]

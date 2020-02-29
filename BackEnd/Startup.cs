@@ -1,18 +1,17 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Business.DbConfigurations;
 using Microsoft.OpenApi.Models;
 using API.MappingProfiles;
 using Business.Services;
-using AutoMapper;
-using System;
-
-using Microsoft.EntityFrameworkCore;
-using Business.DbConfigurations;
 using Business.Settings;
 using API.Extensions;
+using AutoMapper;
+using System;
 
 namespace BackEnd
 {
@@ -43,7 +42,10 @@ namespace BackEnd
                 options.UseSqlite($"Filename={AppDomain.CurrentDomain.BaseDirectory}/{Configuration.GetConnectionString("DefaultConnection")}")
             );
 
-            services.AddControllers()
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(typeof(GlobalExceptionFilter));
+            })
             .AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.PropertyNamingPolicy = SnakeCaseNamingPolicy.Instance;
@@ -62,8 +64,6 @@ namespace BackEnd
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseMiddleware(typeof(GlobalExceptionHandlerMiddleware));
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

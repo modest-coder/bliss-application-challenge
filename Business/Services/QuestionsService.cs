@@ -4,6 +4,7 @@ using Business.DbConfigurations;
 using System.Threading.Tasks;
 using Business.Model;
 using System.Linq;
+using System;
 
 namespace Business.Services
 {
@@ -33,7 +34,12 @@ namespace Business.Services
 
         public async Task<Poll> GetQuestionById(int questionId)
         {
-            return await _dbContext.Polls.Include("Choices").FirstOrDefaultAsync(p => p.Id == questionId);
+            var question = await _dbContext.Polls.Include("Choices").FirstOrDefaultAsync(p => p.Id == questionId);
+            if(question == null)
+            {
+                throw new ArgumentException($"It wasn't possible to find the entity for the id: {questionId}");
+            }
+            return question;
         }
 
         public async Task<Poll> AddQuestion(Poll poll)
