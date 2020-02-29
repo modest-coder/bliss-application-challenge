@@ -19,6 +19,7 @@ namespace API.Extensions
             if (exceptionType == typeof(ArgumentException))
             {
                 status = HttpStatusCode.BadRequest;
+                message = context.Exception.Message;
             }
             if (exceptionType == typeof(UnauthorizedAccessException))
             {

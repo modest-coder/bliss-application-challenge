@@ -128,7 +128,6 @@ namespace Tests.API.Tests
         public void UpdateQuestion_WithInvalidQuestionId_ShouldReturnBadRequestStatusCode()
         {
             var question = TestHelper.GetMockedPoll();
-            question.question = null;
             var questionId = 0;
 
             var json = JsonConvert.SerializeObject(question);

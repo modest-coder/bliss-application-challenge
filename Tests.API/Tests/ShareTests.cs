@@ -63,13 +63,16 @@ namespace Tests.API.Tests
         [TestMethod]
         public void TestShareRoute_ShouldReturnOkStatusCode()
         {
-            var json = JsonConvert.SerializeObject(TestHelper.GetMockedShareInput());
-            var response = TestHelper.MakeSynchronousHttpRequestWithBody(TestHelper.HttpRequestType.Post, $"share", json);
+            if (TestHelper.BaseApiUrl.Contains("500")) // Sending e-mail locally
+            {
+                var json = JsonConvert.SerializeObject(TestHelper.GetMockedShareInput());
+                var response = TestHelper.MakeSynchronousHttpRequestWithBody(TestHelper.HttpRequestType.Post, $"share", json);
 
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            Assert.AreEqual("application/json", response.ContentType);
-            var result = JsonConvert.DeserializeObject<GenericResponseDto>(response.Body);
-            Assert.AreEqual("OK", result.status);
+                Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+                Assert.AreEqual("application/json", response.ContentType);
+                var result = JsonConvert.DeserializeObject<GenericResponseDto>(response.Body);
+                Assert.AreEqual("OK", result.status);
+            }
         }
     }
 }
